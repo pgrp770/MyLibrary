@@ -1,0 +1,64 @@
+﻿@model MyLibrary.Models.Shelf
+
+@{
+    ViewData["Title"] = "Create";
+    var genres = ViewBag.Genres;
+    var libraries = ViewBag.Libraries;
+}
+
+<h1>Create</h1>
+
+<h4>Shelf</h4>
+<hr />
+<div class="row">
+    <div class="col-9">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-4">
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group col-4">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group col-4">
+                <label asp-for="LibraryId" class="control-label"></label>
+                <select asp-for="LibraryId" class ="form-control" asp-items="ViewBag.LibraryId"></select>
+            </div>
+            <div class="form-group col-4">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-3">
+        <p>here you can see the genre of the libraries</p>
+        @foreach (var item in genres)
+    {
+              
+        <span class="border border-4" style="display:block;">@item.Name</span>
+        
+        @foreach (var library in libraries)
+        {
+            @if (library.Genre.Id == item.Id)
+            {
+                    <span class="border border-1" style="display:block;">@library.Name</span>
+            }
+        }
+
+    }
+ 
+    </div>
+
+</div>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

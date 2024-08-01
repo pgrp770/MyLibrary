@@ -1,0 +1,76 @@
+﻿@model MyLibrary.ViewModel.AddBookSet
+
+@{
+    ViewData["Title"] = "Create";
+    var genres = ViewBag.Genres;
+    var shelves = ViewBag.Shelves;
+}
+
+<h1>Create</h1>
+
+<h4>BookSet</h4>
+<hr />
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<div class="row">
+    <div class="col-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="bookSet.Name" class="control-label"></label>
+                <input asp-for="bookSet.Name" class="form-control" />
+                <span asp-validation-for="bookSet.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bookSet.Width" class="control-label"></label>
+                <input asp-for="bookSet.Width" class="form-control" />
+                <span asp-validation-for="bookSet.Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bookSet.Height" class="control-label"></label>
+                <input asp-for="bookSet.Height" class="form-control" />
+                <span asp-validation-for="bookSet.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="bookSet.ShelfId" class="control-label"></label>
+                <select asp-for="bookSet.ShelfId" class ="form-control" asp-items="ViewBag.ShelfId"></select>
+            </div>         
+            <div class="form-group">
+                <label asp-for="genre.Name" class="control-label"></label>
+                <select asp-for="genre.Name" class="form-control" asp-items="ViewBag.GenreId"></select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-6">
+    <p>Here you can see the shelves of the libraries/geners</p>
+    @foreach (var item in genres)
+    {
+        
+        <h6>shelves of @item.Name:</h6>
+        @foreach (var shelf in shelves)
+        {
+            @if (shelf.Library.Genre.Id == item.Id)
+            {
+                <p>@shelf.Id</p>
+
+            }
+        }
+    }
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
